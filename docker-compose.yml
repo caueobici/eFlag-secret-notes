@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  ademir:
+    build: ./ademir
+    restart: unless-stopped
+    privileged: true
+    networks: # set network hostname alias
+      intranet:
+        aliases:
+          - ademir
+    environment: # Pass environment variables to the service
+      PORT: 3000
+      BASEURL: http://172.28.0.1/
+      STAY: 10
+      FLAG: eFlag{__m4yb3_S3lf_XSS_iS_a_b1t_D4nger0us__}
+
+  app:
+    build: ./app
+    restart: always
+    ports:
+      - "80:80"
+    networks:
+      - intranet
+
+
+networks:
+  intranet:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.28.0.0/16
